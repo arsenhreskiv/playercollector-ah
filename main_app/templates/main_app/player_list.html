@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<main id="plrlistmain">
+<br>
+<h1 id="plrindexh1">Your Players</h1>
+    
+<form action="{% url 'player_create' %}">
+    <button class="btn-large z-depth-4" id="Addbtn" type="submit">Add a Player</button>
+</form>
+<br>
+{% if object_list %}
+{% for obj in object_list %}
+<div class="card">
+    <a href="{% url 'player_detail' obj.id %}">
+    <div class="card-body">
+    <h3>{{ obj.name }}</h3>
+    <p class="card-text">Position: {{ obj.position }} Club: {{ obj.club }}</p>    
+    </div>
+    </a>
+</div>
+<br>
+{% endfor %}
+{% else %}
+<p>There are no Players in your collection.</p>
+{% endif %}    
+</main>
+{% endblock %}

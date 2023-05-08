@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load material_form %}
+<main id="detailmain">
+<br>
+<h1 id="detailh1">{{ player.name }} Detail</h1>
+<div class="right card-action">
+  <a href="{% url 'player_update' player.id %}" class="btn-small z-depth-4" id="editbtn" >Edit Player</a>
+  <a href="{% url 'player_delete' player.id %}" class="btn-small z-depth-4" id="delbtn" >Delete Player</a>
+</div>
+<ul class="list-group">
+    <li class="list-group-item">Position: {{ player.position }}</li>
+    <li class="list-group-item">Club: {{ player.club }}</li>
+    <li class="list-group-item">Nationality: {{ player.nationality }}</li>
+    <li class="list-group-item">Birthday: {{ player.birth_date }}</li>
+</ul>
+<div class="col s6">
+    <form action="{% url 'add_training' player.id %}" method="POST">
+      {% csrf_token %}
+      <!-- Render the inputs -->
+      {{ training_form.as_p }}
+      <input type="submit" class="btn" value="Add Training">
+    </form>
+    <br>
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Training</th></tr>
+      </thead>
+      <tbody>
+        {% for training in player.training_set.all %}
+          <tr>
+            <td>{{ training.date }}</td>
+            <td>{{ training.get_training_display }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <hr>
+  <div class="row">
+      <div class="col s6">
+          <h3>{{ player.name }}'s Boots</h3>
+          {% if player.boots.count %}
+            {% for boot in player.boots.all %}
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">
+                    {{ boot.name }} Made by {{ boot.manufacturer }}
+                  </span>
+                </div>
+                <div class="card-action">
+                  <form action="{% url 'unassoc_boot' player.id boot.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Remove</button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <h5>No Boots 😿</h5>
+          {% endif %}
+      </div>
+
+
+
+  <div class="col s6">
+      <h3>Available Boots</h3>
+      {% if boots.count %}
+        {% for boot in boots.all %}
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">
+                {{ boot.name }} Made by {{ boot.manufacturer }}
+              </span>
+            </div>
+            <div class="card-action">
+              <form action="{% url 'assoc_boot' player.id boot.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn">Add</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <h5>{{player.name}} Already Has All Boots Available</h5>
+      {% endif %}
+    </div>
+    
+  </div>
+<script>
+    const dateEl = document.getElementById('id_date');
+      M.Datepicker.init(dateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+      });
+
+      const selectEl = document.getElementById('id_training');
+        M.FormSelect.init(selectEl);
+  </script>
+{% endblock %}

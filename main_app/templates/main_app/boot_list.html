@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<main id="plrlistmain">
+<br>
+<h1 id="plrindexh1">Boots List</h1>
+    
+<form action="{% url 'boots_create' %}">
+    <button class="btn-large z-depth-4" id="Addbtn" type="submit">Add Boots</button>
+</form>
+<br>
+{% if object_list %}
+{% for obj in object_list %}
+<div class="card">
+    <a href="{% url 'boots_detail' obj.id %}">
+    <div class="card-body">
+    <h3>{{ obj.name }}</h3>
+    <p class="card-text">Manufacturer: {{ obj.manufacturer }}</p>    
+    </div>
+    </a>
+</div>
+<br>
+{% endfor %}
+{% else %}
+<p>There are no Boots in your collection.</p>
+{% endif %}    
+</main>
+{% endblock %}

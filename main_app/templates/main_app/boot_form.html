@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<main id="createupdatepg">
+{% if object %}
+<br>
+<h1>Edit {{object.name}}</h1>
+
+{% else %}
+<h1>Add Boots</h1>
+{% endif %}
+<br>
+<form action="" method="POST">
+   {% csrf_token %}
+       <table id="edittable">
+           {{ form.as_table }}
+       </table>
+       <button type="submit" value="Submit!" class="btn waves-effect waves-light" id="submit">Submit <i class="material-icons right">send</i></button>
+   </form>
+</main>
+<script>
+    const dateEl = document.getElementById('id_birth_date');
+    M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PlayerCollector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Righteous&family=Ysabeau&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <header class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <ul class = "left">
+                    <li><a href="{% url 'home' %}" class="left brand-logo" id="MainLogo">&nbsp;&nbsp;PlayerCollector</a></li>
+                </ul>
+                <ul class="right">
+                  {% if user.is_authenticated %}
+                    <li><a href="{% url 'player_index' %}">Your Players</a></li>
+                    <li><a href="{% url 'boots_index' %}">Boots</a></li>
+                    <li><a href="{% url 'logout' %}">Log Out</a></li>
+                  {% else %}
+                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                    <li><a href="{% url 'login' %}">Log In</a></li>
+                  {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+    {% include 'material/includes/material_css.html' %}
+    {% include 'material/includes/material_js.html' %}
+    {% block content %}
+    {% endblock %}
+    <footer class="page-footer">
+    <div class="right">All Rights Reserved, &copy; 2023 PlayerCollector &nbsp;</div>
+    </footer>
+    </body>
+    </html>
